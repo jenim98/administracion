@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block titulo %}
+Carrera
+{% endblock %}
+{% block contenido %}
+
+<form action="{% url 'guardarCarrera' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}  
+    <input type="submit" class="btn btn-outline-success" value="Guardar">
+    <a href="{%url 'carrera'%}" class="btn btn-outline-danger">Cancelar</a>
+</form>
+
+
+
+
+
+
+
+
+{% endblock %}

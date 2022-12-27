@@ -1,0 +1,196 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Informe Primero
+{% endblock %}
+{% block contenido %}
+
+<div>
+    <a href="{% url 'estadistica' %}" class="btn btn-outline-primary">Estadisticas Generales</a>    
+</div>
+
+
+<h2> Cantidad Total de Alumnos: {{CantidadTotal}} </h2>
+<table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Carrera</th> 
+                <th scope="col">Cantidad</th>       
+            </tr>
+        </thead>
+    <tbody>
+    {% for cantidad in cantidades %}
+    {% for i in cantidad %}
+
+        <tr>
+            <td><h5> {{i.Carreraxcoorte_id__carrera_id__nombre}} </h5></td>
+            <td><h3> {{i.cantidad}} </h3></td>
+        </tr>
+    
+    {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2> Cantidad de Alumnos por Genero detallados por Carrera: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+             <tr>
+                <th scope="col">Carrera</th> 
+                <th scope="col">Genero</th> 
+                <th scope="col">Cantidad</th>       
+             </tr>
+        </thead>
+    <tbody>
+    {% for cantidad in Listageneros %}
+    {% for i in cantidad %}
+    
+        <tr>
+            <td><h5> {{i.Carreraxcoorte_id__carrera_id__nombre}}</h5></td>
+            <td><h5> {{i.Alumnos_id__Genero_id__descripcion}} </h5></td>
+            <td><h3> {{i.cantidad}} </h3></td>
+        </tr>
+    
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<h2> Cantidad Total de Alumnos por Genero: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+             <tr>
+                <th scope="col">Genero</th> 
+                <th scope="col">Cantidad</th>       
+             </tr>
+        </thead>
+    <tbody>
+    {% for l in ListatotalGenero %}
+    {% for g in l %}
+        <tr>
+            <td><h5> {{g.Alumnos_id__Genero_id__descripcion}}</h5></td>
+            <td><h3> {{g.cantidad}} </h3></td>
+        </tr>
+    
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<h2> Cantidad de Alumnos Activos por Carrera y Provincia: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Provincia</th> 
+                <th scope="col">Carrera</th> 
+                <th scope="col">Cantidad</th>       
+            </tr>
+        </thead>
+    <tbody>
+    {% for l in ListaProvincia %}
+    {% for p in l %}
+
+        <tr>
+            <td><h5> {{p.Alumnos_id__LocalidadNac_id__departamento_id__provincia_id__nombre}}</h5></td>
+            <td><h5> {{p.Carreraxcoorte_id__carrera_id__nombre}} </h5></td>
+            <td><h3> {{p.cantidad}} </h3></td>
+        </tr>
+
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<h2> Cantidad de Total de Alumnos Activos por Provincia: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Provincia</th> 
+                <th scope="col">Cantidad</th>       
+            </tr>
+        </thead>
+    <tbody>
+    {% for p in listaAlumnosxProvincia %}
+    {% for a in p %}
+
+        <tr>
+            <td><h5> {{a.Alumnos_id__LocalidadNac_id__departamento_id__provincia_id__nombre}}</h5></td>
+            <td><h3> {{a.cantidad}} </h3></td>
+        </tr>
+
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<h2> Cantidad por Edades por Carreara: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Carrera</th>
+                <th scope="col">Edad</th>
+                <th scope="col">Cantidad</th>       
+            </tr>
+        </thead>
+    <tbody>
+    {% for cantidad in ListaedadesXcarrera %}
+    {% for i in cantidad.resultado %}
+
+        <tr>
+            <td><h5> {{i.Carreraxcoorte_id__carrera_id__nombre}}</h5></td>
+            {% if cantidad.Edad == 17 %}
+            <td><h5> Menor a 18 </h5></td>
+            {% elif cantidad.Edad == 30 %}
+            <td><h5> Mayor o Igual a 30</h5></td>
+            {% else %}
+            <td><h5> {{cantidad.Edad}}</h5></td>
+            {% endif %}
+            <td><h3> {{i.cantidad}} </h3></td>
+            
+        </tr>
+
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<h2> Cantidad Total de Edades: </h2>
+<table class="table" style="text-align: center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Edad</th>
+                <th scope="col">Cantidad</th>       
+            </tr>
+        </thead>
+    <tbody>
+    {% for cantidad in Listaedades %}
+    {% for i in cantidad.resultado %}
+
+        <tr>
+            {% if cantidad.Edad == 17 %}
+            <td><h5> Menor a 18 </h5></td>
+            {% elif cantidad.Edad == 30 %}
+            <td><h5> Mayor o Igual a 30</h5></td>
+            {% else %}
+            <td><h5> {{cantidad.Edad}}</h5></td>
+            {% endif %}
+            <td><h3> {{i.cantidad}} </h3></td>
+            
+        </tr>
+
+    {% endfor %}
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<div>
+    <a href="{% url 'alumno' %}" class="btn btn-outline-primary">Volver</a>    
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Alumnos
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <a href="{% url 'nuevoAlumno' id=0 %}" class="btn btn-outline-primary">Agregar</a>
+        <a href="{% url 'estadistica' %}" class="btn btn-outline-primary">Generar Reporte</a>
+    </div>
+    <div>
+        <form action="{% url 'filtrarbusqueda' %}" method="GET">
+            <select name="filtro" style="border-radius: 4px;">
+                <option value="0">Seleccione una opción </option>
+                <option value="1">DNI </option>
+                <option value="2">Apellido </option>
+            </select>
+            <input type="text" style="align-items: end; border-radius: 4px;" name='Filtrar'>
+            <input type="submit" class="btn btn-outline-primary" value="Buscar">
+        </form>
+    </div>
+    
+</div>
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" hidden>ID</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Apellido, Nombre</th>
+            <th scope="col">Género</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    {% for alumno in alumnos %}
+    <tbody>
+        <tr>
+            <td hidden>{{alumno.id}}</td>
+            <td>{{alumno.Documento}}</td>
+            <td>{{alumno.Apellido}}, {{alumno.Nombres}}</td>
+            <td>{{alumno.Genero_id.descripcion}}</td>
+            <td>{{alumno.LocalidadVive_id.nombre}}</td>
+            <td>{{alumno.Telefono}}</td>
+            <td>{{alumno.Email}}</td>
+            <td>
+                <a title="Editar este/a alumno/a"  href="{% url 'nuevoAlumno' id=alumno.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>               
+                <a title="Borrar este/a alumno/a" href="#" onclick="borrar('{{alumno.Apellido}}+{{alumno.nombre}}','/alumnos/eliminaralumnos/','{{alumno.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table> 
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

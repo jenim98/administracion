@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <title>ISBH</title>
+  <script src="https://kit.fontawesome.com/f097112ffc.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+
+<body>
+  <section class="vh-100" style="background-color: #dc3545;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+              
+              <form class="user" method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                  <img style="width: 200px;" src="{% static 'k.png' %}">
+  
+              <div>
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="typeEmailX-2">Usuario</label> {{ form.username }}
+                </div>
+    
+                <div class="form-outline mb-4" style="padding-right: 25px;">
+                  <label class="form-label" for="typePasswordX-2">Contraseña</label> {{ form.password }}
+                </div>
+              </div>
+  
+              <a style="text-decoration: none;" href="{% url 'inicio' %}"><button class="btn btn-primary btn-lg btn-block" type="submit">Ingresar</button></a>
+              </form>
+              <div>
+                {% if form.errors %}
+              <p style="color: red;">Tu usuario o contraseña son incorrectos, por favor intente de nuevo</p>
+              {% endif %}
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="display: flex; justify-content: center;">
+    ©TresGeneraciones 2022
+  </footer>
+</body>
+</html>

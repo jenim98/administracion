@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Materias - {{carrera.nombre}}
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+<a href="{% url 'nuevaMateria' id=0 idcarrera=carrera.id %}" class="btn btn-outline-primary">Agregar</a>
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Materia</th>
+        <th scope="col">Curso</th>
+        <th scope="col">Profesor</th>
+        <th scope="col">Carga horaria</th>
+        <th scope="col">Modo de Rendir</th>
+    </tr>
+</thead>
+    {% for materia in materias %}
+    <tbody>
+        <tr>
+            <td>{{materia.nombre}}</td>
+            <td>{{materia.Cursos_id.nombre}}</td>
+            <td>{{materia.Profesores_id.Apellido}}, {{materia.Profesores_id.Nombres}}</td>
+            <td>{{materia.CargaHoraria}}</td>
+            <td>{{materia.MododeRendir_id.nombre}}</td>
+            <td>
+                <a title="Editar esta materia" href="{% url 'nuevaMateria' id=materia.id idcarrera=carrera.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>
+                <a title="Borrar esta materia" href="#" onclick="borrar('{{materia.nombre}}','/materias/eliminarMateria/','{{materia.id}}/{{materia.Carrera_id.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+<a href="{% url 'carrera' %}" class="btn btn-outline-primary">Volver</a>
+
+
+
+
+
+{% endblock %}

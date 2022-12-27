@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Profesores
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+ '?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+<div style="display: flex; justify-content: space-between;">
+    <a href="{% url 'nuevoProfesor' id=0 %}" class="btn btn-outline-primary">Agregar</a>
+</div>
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" hidden>ID</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Apellido, Nombre</th>
+            <th scope="col">Género</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    {% for profe in profesor %}
+    <tbody>
+        <tr>
+            <td hidden>{{profe.id}}</td>
+            <td>{{profe.Documento}}</td>
+            <td>{{profe.Apellido}}, {{profe.Nombres}}</td>
+            <td>{{profe.Genero_id.descripcion}}</td>
+            <td>{{profe.LocalidadVive_id.nombre}}</td>
+            <td>{{profe.Telefono}}</td>
+            <td>{{profe.Email}}</td>
+            <td>
+                <a title="Editar este/a profesor/a"  href="{% url 'nuevoProfesor' id=profe.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>               
+                <a title="Borrar este/a profesor/a"  href="#" onclick="borrar('{{profe.Apellido}}+{{profe.nombre}}','/profesores/eliminarprofesores/','{{profe.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table> 
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

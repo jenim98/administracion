@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Cohorte 
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{% url 'nuevoCoorte' id=0%}" class="btn btn-outline-primary">Agregar</a>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Comienzo</th>
+        <th scope="col">Carrera</th>
+    </tr>
+</thead>
+   
+    <tbody>
+
+        {% for coorte in coortes %}
+
+
+    <tr>
+        <td>{{coorte.Coorte_id.ano_ini}}</td>
+        <td>{{coorte.carrera_id.nombre}}</td>
+        <td>
+            <a title="Ver alumnos en esta cohorte" href="{%url 'mostrarAlumnosCoorte' id=coorte.id %}"><i style="color: #000000; cursor:pointer;" class="fa-solid fa-arrows-to-eye"></i></a>        
+            <a title="Borrar esta cohorte" href="#" onclick="borrar('{{coorte.Coorte_id.ano_ini}}','/coorte/eliminarcoorte/','{{coorte.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+
+
+</table>
+
+
+
+
+
+{% endblock %}

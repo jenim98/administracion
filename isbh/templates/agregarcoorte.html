@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block titulo %}
+Cohorte
+{% endblock %}
+{% block contenido %}
+
+<form action="{% url 'guardarCoorte'%}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+            <div>
+              <label class="col-form-label">Carrera:</label>
+              <select name="carreraid">
+                {% for carrera in carreras %}
+                <option value="{{carrera.id}}">{{carrera.nombre}}</option>
+                {% endfor %}
+            </select>
+            </div><br>
+                {% comment %} <input class="form-check-input me-1" type="checkbox" value="{{carrera.id}}" name="{{carrera.nombre}}" aria-label="..."> {% endcomment %}
+                
+              
+    <input type="submit" class="btn btn-outline-success" value="Guardar">
+    <a href="{%url 'coortes'%}" class="btn btn-outline-danger">Cancelar</a>
+</form>
+
+
+
+
+
+
+
+{% endblock %}

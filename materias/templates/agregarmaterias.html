@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block titulo %}
+Materia
+{% endblock %}
+{% block contenido %}
+<form action="{% url 'guardarMaterias' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}  
+    <input type="submit" class="btn btn-outline-success" value="Guardar">
+    <a href="{% url 'materias' id=carrera.id %}" class="btn btn-outline-danger">Cancelar</a>
+</form>
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Género
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{% url 'nuevoGenero' id=0%}" class="btn btn-outline-primary">Agregar</a>
+
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th hidden scope="col">ID</th>
+        <th scope="col">Género</th>
+    </tr>
+</thead>
+    {% for genero in generos %}
+    <tbody>
+    <tr>
+        <td hidden>{{genero.id}}</td>
+        <td>{{genero.descripcion}}</td>
+        <td>
+            <a title="Editar este género" href="{% url 'nuevoGenero' id=genero.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>
+            <a title="Borrar este género" href="#" onclick="borrar('{{genero.nombre}}','/genero/eliminargenero/','{{genero.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+        </td>
+    </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+
+
+
+
+{% endblock %}

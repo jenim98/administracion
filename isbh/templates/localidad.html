@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Localidad
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{% url 'nuevaLocalidad' id=0%}" class="btn btn-outline-primary">Agregar</a>
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th hidden scope="col">ID</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">País</th>
+        </tr>
+    </thead>
+    {% for localidad in localidades %}
+    <tbody>
+        <tr>
+            <td hidden>{{localidad.id}}</td>
+            <td>{{localidad.nombre}}</td>
+            <td>{{localidad.departamento_id.provincia_id.pais_id.nombre}}</td>
+            <td>
+                <a title="Editar esta localidad" href="{% url 'nuevaLocalidad' id=localidad.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a> 
+                <a title="Borrar esta localidad" href="#" onclick="borrar('{{localidad.nombre}}','/localidad/eliminarlocalidad/','{{localidad.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Modo de rendir
+{% endblock %}
+{% block contenido %}
+
+<script>
+function borrar (nombre,url,id){
+    opcion=confirm(`¿Está seguro que desea eliminar ${nombre}?`);
+    if (opcion==true){
+        window.location.href=url + id
+    }
+}
+</script>
+
+
+
+<a href="{% url 'nuevoMododerendir' id=0 %}" class="btn btn-outline-primary">Agregar</a>
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Modo de rendir</th>
+    </tr>
+</thead>
+    {% for modo in mododerendir %}
+    <tbody>
+        <tr>
+            <td>{{modo.nombre}}</td>
+            
+            <td>
+                <a title="Editar este modo de rendir" href="{% url 'nuevoMododerendir' id=modo.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>
+                <a title="Borrar este modo de rendir" href="#" onclick="borrar('{{modo.nombre}}','/mododerendir/eliminarMododerendir/','{{modo.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+{% endblock %}

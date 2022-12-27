@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Rangos de Edades
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<a href="{% url 'AgregarRangos' id=0 %}" class="btn btn-outline-primary">Agregar</a>
+
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th hidden scope="col">ID</th>
+            <th scope="col">Desde</th>
+            <th scope="col">Hasta</th>
+        </tr>
+    </thead>
+    {% for registros in listaderangos %}
+    <tbody>
+        <tr>
+            <td hidden>{{registros.id}}</td>
+            <td>{{registros.desde}}</td>
+            <td>{{registros.hasta}}</td>
+            <td>
+                <a title="Editar este rango de edad" href="{% url 'AgregarRangos' id=registros.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>         
+                <a title="Borrar este rango de edad" href="#" onclick="borrar('{{registros.desde}}','/rangosedades/eliminarrangoedades/','{{registros.id}}','{{registros.hasta}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>            
+            </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+
+
+
+
+{% endblock %}

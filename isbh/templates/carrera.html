@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Carrera
+{% endblock %}
+{% block contenido %}
+
+<script> 
+    function borrar (nombre,url,id){
+        opcion=confirm('¿Está seguro que desea eliminar ' +nombre+'?');
+        if (opcion==true){
+            window.location.href=url + id
+        }
+    }
+</script>
+
+<a href="{% url 'nuevaCarrera' id=0%}" class="btn btn-outline-primary">Agregar</a>
+
+{% if messages%}
+<ul>
+    {% for message in messages%}
+    <li {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th hidden scope="col">ID</th>
+        <th scope="col">Carrera</th>
+        <th scope="COL"></th>
+    </tr>
+</thead>
+    {% for carrera in carreras %}
+    <tbody>
+        <tr>
+            <td hidden>{{carrera.id}}</td>
+            <td>{{carrera.nombre}}</td>
+            <td><a href="{% url 'materias' id=carrera.id %}" class="btn btn-outline-primary">Materias</a></td>
+            <td>
+                
+                <a title="Editar esta carrera" href="{% url 'nuevaCarrera' id=carrera.id %}"><i style="color: #000000;" class="fa-solid fa-pen-to-square"></i></a>
+                <a title="Borrar esta carrera" href="#" onclick="borrar('{{carrera.nombre}}','/carrera/eliminarCarrera/','{{carrera.id}}')"><i style="color: #000000;" class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+    </tbody>
+
+
+{% endfor %}
+</table>
+
+
+
+
+
+{% endblock %}

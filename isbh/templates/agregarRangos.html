@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block titulo %}
+Rangos de Edades
+{% endblock %}
+{% block contenido %}
+<form action="{% url 'GuardarRangos' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}  
+    <input type="submit" class="btn btn-outline-success" value="Guardar">
+    <a href="{% url 'Rangos'%}" class="btn btn-outline-danger">Cancelar</a>
+</form>
+{% endblock %}

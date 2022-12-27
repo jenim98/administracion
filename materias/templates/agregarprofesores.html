@@ -1,0 +1,101 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block titulo %}
+Profesores
+{% endblock %}
+{% block contenido %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+  </script>
+
+
+<script>
+  $(document).ready(function(){
+    $.ajax(
+        {type: 'GET',
+        url: "{% url 'traerfecha' %}",       
+        success: function(data){           
+            var html;
+            for(i=0; i<Object.keys(data).length; i++){               
+                html=html+'<option value= "'+data[i].id+'">'+data[i].ano_ini+'</option>'               
+            }
+           $('#id_coorte').html(html)
+        }
+    });
+})
+  function cargarCarrera() {
+    id = $('#id_coorte').val()
+    $.ajax(
+            {type: 'GET',
+            url: "{% url 'cargarCarreraxCoorte' %}",
+            data: {id:id},
+            success: function(data){
+                var html="";
+                for(i=0; i<Object.keys(data).length; i++){ 
+                    html=html+'<li class="list-group-item" id='+data[i].id+'>'+data[i].carrera_id__nombre+'<a onclick="traerCarrera('+data[i].id+')" style="cursor:pointer;"><i class="fa-solid fa-circle-check"></i></a></li>'  
+                }
+               $('#lista_carrera').html(html)
+            }
+        });
+  }
+</script>
+
+<style>
+  label{
+    display: inline-block;
+    width: 200px;
+  }
+  .campo{
+    color: red;
+  }
+</style>
+
+<div>
+    <form action="{% url 'guardarProfesores' %}" method="POST" style="align-items:justify;" id="cargarAlumno" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+
+      <div class="form-group row">
+          <label style="display: inline-block; width: 200px; padding-left: 15px">Vive en: *</label>
+          <div>
+            <input type="text" style="width: 20%;" id="id_nombreLR" name="id_localidadRes" value="{{localidadResidencia}}" hidden><a style="color: #000000;" onclick="traerLocalidad(2)"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <input type="text" name="localidadResidencia" value="{{localidadResidenciaNombre}}" required="" id="id_localidadResidencia" readonly="readonly">
+        </div>
+      </div>
+
+      <div class="form-group row">
+          <label style="display: inline-block; width: 200px; padding-left: 15px" for="validationCustom01">Dirección:</label>
+          <div>         
+            <input style="margin-left: 20px;" type="text" name="direccion" required="" id="id_direccion validationCustom01" value="{{direccion}}">
+          </div>
+      </div>
+      <hr>
+      <div>
+
+        
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <a onclick="guardar()" style="cursor:pointer;" class="btn btn-outline-success">Guardar</a>
+          <a href="{%url 'profesor'%}" class="btn btn-outline-danger">Cancelar</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+
+
+
+<script src="{% static 'js/traerLocalidad.js' %}"></script>
+<script src="{% static 'js/traerCarrera.js' %}"></script>
+
+{% endblock %}
